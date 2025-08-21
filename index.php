@@ -177,10 +177,16 @@ $memberships = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <p class="text-gray-600 max-w-2xl mx-auto">Meet our team of certified fitness professionals dedicated to helping you reach your goals.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <?php foreach ($trainers as $index => $trainer): ?>
-            <div class="bg-white rounded-lg overflow-hidden shadow-lg trainer-card transition duration-300 fade-in <?php echo $index == 1 ? 'delay-1' : ($index == 2 ? 'delay-2' : ($index == 3 ? 'delay-3' : '')); ?>">
-                <img src="<?php echo htmlspecialchars($trainer['image_url']); ?>" alt="Trainer <?php echo htmlspecialchars($trainer['name']); ?>" class="w-full h-64 object-cover">
-                <div class="p-6">
+        <?php foreach ($trainers as $index => $trainer): ?>
+        <div class="bg-white rounded-lg overflow-hidden shadow-lg trainer-card transition duration-300 fade-in <?php echo $index == 1 ? 'delay-1' : ($index == 2 ? 'delay-2' : ($index == 3 ? 'delay-3' : '')); ?>">
+        <img 
+        src="<?php echo !empty($trainer['image_url']) 
+            ? htmlspecialchars($trainer['image_url']) 
+            : '/smartgym/assets/img/default-trainer.jpg'; ?>" 
+        alt="Trainer <?php echo htmlspecialchars($trainer['name']); ?>" 
+        class="w-full h-64 object-cover"
+        />    
+            <div class="p-6">
                     <h3 class="text-xl font-bold mb-1"><?php echo htmlspecialchars($trainer['name']); ?></h3>
                     <span class="text-blue-600 text-sm font-semibold"><?php echo htmlspecialchars($trainer['specialty']); ?></span>
                     <p class="text-gray-600 mt-3 text-sm"><?php echo htmlspecialchars($trainer['description']); ?></p>

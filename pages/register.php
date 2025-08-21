@@ -1,34 +1,40 @@
 <?php
-require_once __DIR__ . '/../includes/header.php';
+// NO imprimas HTML aquí arriba. Solo lógica PHP.
+require_once __DIR__ . '/../config.php';
 
-// If logged in, redirect home
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+// Si ya está logueado, redirige ANTES de imprimir HTML
 if (isset($_SESSION['user_id'])) {
     header('Location: /smartgym/index.php');
     exit;
 }
 
 $error = '';
-// Handle registration submission
+
+// Procesar registro
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name    = trim($_POST['name'] ?? '');
-    $email   = trim($_POST['email'] ?? '');
-    $age     = trim($_POST['age'] ?? '');
+    $name     = trim($_POST['name'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
+    $age      = trim($_POST['age'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm  = $_POST['confirm_password'] ?? '';
+
     if ($name && $email && $age && $password && $confirm) {
         if ($password !== $confirm) {
             $error = 'Las contraseñas no coinciden.';
         } else {
-            // Check if email already exists
+            // Email duplicado
             $stmt = $db->prepare('SELECT COUNT(*) FROM users WHERE email = :email');
             $stmt->execute([':email' => $email]);
-            $exists = $stmt->fetchColumn();
-            if ($exists) {
+            if ($stmt->fetchColumn()) {
                 $error = 'El correo electrónico ya está registrado.';
             } else {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
-                // Use gym_id=1 by default; ensure it exists via init_db.php
-                $stmt = $db->prepare('INSERT INTO users (gym_id, name, email, age, password_hash) VALUES (:gym_id, :name, :email, :age, :password_hash)');
+                $stmt = $db->prepare('INSERT INTO users (gym_id, name, email, age, password_hash)
+                                      VALUES (:gym_id, :name, :email, :age, :password_hash)');
                 $stmt->execute([
                     ':gym_id' => 1,
                     ':name'   => $name,
@@ -36,8 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':age'    => (int)$age,
                     ':password_hash' => $hash
                 ]);
-                $_SESSION['user_id'] = $db->lastInsertId();
+
+                $_SESSION['user_id']   = $db->lastInsertId();
                 $_SESSION['user_name'] = $name;
+
+                // Redirige ANTES de incluir header.php
                 header('Location: /smartgym/index.php');
                 exit;
             }
@@ -46,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Por favor complete todos los campos.';
     }
 }
+
+// A partir de aquí ya podemos imprimir HTML
+require_once __DIR__ . '/../includes/header.php';
 ?>
 <div class="container mx-auto px-6 py-20">
     <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8">
