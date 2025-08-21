@@ -291,3 +291,25 @@ WHERE a.name='CrossFit';
 UPDATE classes c JOIN activity_types a ON a.id=c.activity_type_id
 SET c.image_url='https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470&q=80'
 WHERE a.name='Yoga';
+
+CREATE TABLE IF NOT EXISTS gallery_images (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NULL,
+  filename VARCHAR(255) NOT NULL,
+  title VARCHAR(160) NULL,
+  sort_order INT UNSIGNED NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  KEY ix_sort (sort_order),
+  CONSTRAINT fk_gallery_user FOREIGN KEY (user_id) REFERENCES users(id)
+    ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS uploads (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NULL,
+  filename VARCHAR(255) NOT NULL,
+  uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_uploads_user FOREIGN KEY (user_id) REFERENCES users(id)
+    ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE=InnoDB;
