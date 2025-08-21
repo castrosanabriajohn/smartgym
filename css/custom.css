@@ -1,0 +1,34 @@
+/* Custom styles replicating Tailwind effects using Bootstrap */
+.hero-gradient {
+  background: linear-gradient(135deg, #1e3a8a 0%, #111827 100%);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+.fade-in.delay-1 { animation-delay: 0.2s; }
+.fade-in.delay-2 { animation-delay: 0.4s; }
+.fade-in.delay-3 { animation-delay: 0.6s; }
+.trainer-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+}
+.membership-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+}
+.testimonial-card {
+  transition: all 0.3s ease;
+}
+.testimonial-card:hover {
+  background-color: #1e40af;
+  color: #fff;
+}
+.testimonial-card:hover .text-muted {
+  color: #e5e7eb !important;
+}
+.hover-primary:hover { color: #0d6efd !important; }
