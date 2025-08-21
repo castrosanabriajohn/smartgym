@@ -203,58 +203,35 @@ $memberships = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
 <!-- Membership Section -->
-<section id="membership" class="py-20 bg-white">
-    <div class="container mx-auto px-6">
-        <div class="text-center mb-16 fade-in">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4">MEMBERSHIP <span class="text-blue-600">PLANS</span></h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-            <p class="text-gray-600 max-w-2xl mx-auto">Choose the plan that fits your fitness journey. All plans include access to our premium facilities.</p>
+<section id="membership" class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2>MEMBERSHIP PLANS</h2>
+            <?php if ($loggedIn): ?>
+                <a href="/smartgym/pages/membership_create.php" class="btn btn-success mt-2">Add Plan</a>
+            <?php endif; ?>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <?php foreach ($memberships as $index => $m): ?>
-            <div class="bg-gray-100 rounded-lg p-8 membership-card transition duration-300 fade-in <?php echo $index == 1 ? 'delay-1' : ($index == 2 ? 'delay-2' : ''); ?>">
-                <div class="text-center mb-6">
-                    <h3 class="text-xl font-bold mb-2"><?php echo htmlspecialchars($m['name']); ?></h3>
-                    <div class="text-4xl font-bold text-blue-600 mb-2">
-                        $<?php echo number_format($m['price'], 2); ?><span class="text-lg text-gray-500">/<?php echo htmlspecialchars($m['duration_days']); ?> días</span>
+        <div class="row">
+            <?php foreach ($memberships as $m): ?>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars($m['name']); ?></h5>
+                        <p class="card-text display-6">
+                            $<?php echo number_format($m['price'], 2); ?><small class="text-muted">/<?php echo htmlspecialchars($m['duration_days']); ?> días</small>
+                        </p>
+                        <form method="post" action="/smartgym/pages/cart.php">
+                            <input type="hidden" name="membership_id" value="<?php echo $m['id']; ?>">
+                            <button class="btn btn-primary">Añadir al carrito</button>
+                        </form>
+                        <?php if ($loggedIn): ?>
+                        <div class="mt-2">
+                            <a class="btn btn-sm btn-outline-primary" href="/smartgym/pages/membership_edit.php?id=<?php echo (int)$m['id']; ?>">Edit</a>
+                            <a class="btn btn-sm btn-outline-danger" href="/smartgym/pages/membership_delete.php?id=<?php echo (int)$m['id']; ?>">Delete</a>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <ul class="space-y-3 mb-8">
-                    <?php
-                    // Define feature sets based on plan name
-                    $planFeatures = [];
-                    switch (strtolower($m['name'])) {
-                        case 'basic':
-                            $planFeatures = ['Acceso al gimnasio','Clases básicas'];
-                            break;
-                        case 'pro':
-                            $planFeatures = ['Acceso al gimnasio','Todas las clases','Sesiones con entrenador personal'];
-                            break;
-                        case 'elite':
-                            $planFeatures = ['Acceso al gimnasio','Todas las clases','Entrenador personal ilimitado','Plan de nutrición'];
-                            break;
-                        default:
-                            $planFeatures = ['Acceso al gimnasio'];
-                    }
-                    $allFeatures = ['Acceso al gimnasio','Clases básicas','Todas las clases','Sesiones con entrenador personal','Entrenador personal ilimitado','Plan de nutrición'];
-                    foreach ($allFeatures as $feature):
-                        $included = in_array($feature, $planFeatures);
-                    ?>
-                    <li class="flex items-center <?php echo $included ? 'text-gray-600' : 'text-gray-400'; ?>">
-                        <?php if ($included): ?>
-                            <i class="fas fa-check text-green-500 mr-2"></i> <?php echo $feature; ?>
-                        <?php else: ?>
-                            <i class="fas fa-times text-red-400 mr-2"></i> <?php echo $feature; ?>
-                        <?php endif; ?>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-                <form method="post" action="/smartgym/pages/cart.php">
-                    <input type="hidden" name="membership_id" value="<?php echo $m['id']; ?>">
-                    <button class="w-full <?php echo $index == 0 ? 'bg-gray-300 hover:bg-gray-400 text-gray-800' : ($index == 1 ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-purple-600 hover:bg-purple-700 text-white'); ?> font-semibold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center" type="submit">
-                        Añadir al carrito
-                    </button>
-                </form>
             </div>
             <?php endforeach; ?>
         </div>

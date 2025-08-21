@@ -60,36 +60,36 @@ if ((int)$stmt->fetchColumn() === 0) {
             'specialty' => 'Strength Coach',
             'description' => 'Con 12 años de experiencia, especializado en entrenamiento de fuerza y powerlifting.',
             'image_url' => 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470&q=80',
-            'facebook' => '#',
-            'twitter' => '#',
-            'instagram' => '#'
+            'facebook' => 'https://facebook.com/johnsmith',
+            'twitter' => 'https://twitter.com/johnsmith',
+            'instagram' => 'https://instagram.com/johnsmith'
         ],
         [
             'name' => 'Sarah Johnson',
             'specialty' => 'Yoga Instructor',
             'description' => 'Instructora certificada con 8 años de experiencia en Hatha, Vinyasa y Yin yoga.',
             'image_url' => 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1470&q=80',
-            'facebook' => '#',
-            'twitter' => '#',
-            'instagram' => '#'
+            'facebook' => 'https://facebook.com/sarahjohnson',
+            'twitter' => 'https://twitter.com/sarahjohnson',
+            'instagram' => 'https://instagram.com/sarahjohnson'
         ],
         [
             'name' => 'Mike Davis',
             'specialty' => 'CrossFit Coach',
             'description' => 'Atleta competitivo ahora entrenador de CrossFit con enfoque en técnica.',
             'image_url' => 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470&q=80',
-            'facebook' => '#',
-            'twitter' => '#',
-            'instagram' => '#'
+            'facebook' => 'https://facebook.com/mikedavis',
+            'twitter' => 'https://twitter.com/mikedavis',
+            'instagram' => 'https://instagram.com/mikedavis'
         ],
         [
             'name' => 'Lisa Wong',
             'specialty' => 'Nutrition Specialist',
             'description' => 'Dietista registrada que crea planes de nutrición personalizados.',
             'image_url' => 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470&q=80',
-            'facebook' => '#',
-            'twitter' => '#',
-            'instagram' => '#'
+            'facebook' => 'https://facebook.com/lisawong',
+            'twitter' => 'https://twitter.com/lisawong',
+            'instagram' => 'https://instagram.com/lisawong'
         ],
     ];
     foreach ($trainers as $t) {

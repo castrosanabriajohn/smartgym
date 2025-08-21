@@ -10,37 +10,38 @@ $stmt = $db->query(
 );
 $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<div class="container mx-auto px-6 py-16">
-    <h2 class="text-3xl font-bold mb-8 text-center">Latest News</h2>
-
+<div class="container py-5">
+    <h2 class="text-center mb-4">Latest News</h2>
+    <?php if ($loggedIn): ?>
+        <a href="/smartgym/pages/news_create.php" class="btn btn-success mb-3">Add News</a>
+    <?php endif; ?>
     <?php if (empty($posts)): ?>
-        <p class="text-center text-gray-600">No hay noticias publicadas aún.</p>
+        <p class="text-center text-muted">No hay noticias publicadas aún.</p>
     <?php else: ?>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="row">
         <?php foreach ($posts as $post): ?>
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            <?php if (!empty($post['image_url'])): ?>
-                <img
-                    src="<?php echo htmlspecialchars($post['image_url']); ?>"
-                    alt="<?php echo htmlspecialchars($post['title']); ?>"
-                    class="w-full h-48 object-cover"
-                >
-            <?php endif; ?>
-            <div class="p-6">
-                <h3 class="text-xl font-bold mb-2">
-                    <?php echo htmlspecialchars($post['title']); ?>
-                </h3>
-                <p class="text-gray-600 text-sm mb-4">
-                    <?php
-                    $fecha = $post['published_at'] ?: $post['created_at'];
-                    echo date('F j, Y', strtotime($fecha));
-                    ?>
-                </p>
-                <p class="text-gray-600 mb-4">
-                    <?php echo htmlspecialchars(mb_strimwidth($post['body'], 0, 150, '...')); ?>
-                </p>
-                <a href="/smartgym/pages/news_detail.php?id=<?php echo (int)$post['id']; ?>"
-                   class="text-blue-600 hover:underline">Leer más</a>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <?php if (!empty($post['image_url'])): ?>
+                    <img src="<?php echo htmlspecialchars($post['image_url']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($post['title']); ?>">
+                <?php endif; ?>
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
+                    <p class="card-text"><small class="text-muted">
+                        <?php
+                        $fecha = $post['published_at'] ?: $post['created_at'];
+                        echo date('F j, Y', strtotime($fecha));
+                        ?>
+                    </small></p>
+                    <p class="card-text"><?php echo htmlspecialchars(mb_strimwidth($post['body'], 0, 150, '...')); ?></p>
+                    <a href="/smartgym/pages/news_detail.php?id=<?php echo (int)$post['id']; ?>" class="btn btn-link p-0">Leer más</a>
+                    <?php if ($loggedIn): ?>
+                        <div class="mt-2">
+                            <a class="btn btn-sm btn-outline-primary" href="/smartgym/pages/news_edit.php?id=<?php echo (int)$post['id']; ?>">Edit</a>
+                            <a class="btn btn-sm btn-outline-danger" href="/smartgym/pages/news_delete.php?id=<?php echo (int)$post['id']; ?>">Delete</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
         <?php endforeach; ?>
