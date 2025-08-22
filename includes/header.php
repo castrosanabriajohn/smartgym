@@ -9,6 +9,7 @@ if (empty($_SESSION['db_initialized'])) {
 
 $loggedIn = isset($_SESSION['user_id']);
 $currentUser = null;
+$cartCount = array_sum($_SESSION['cart'] ?? []);
 if ($loggedIn) {
     if (!empty($_SESSION['user_name'])) {
         $currentUser = $_SESSION['user_name'];
@@ -55,6 +56,7 @@ if ($loggedIn) {
         <li class="nav-item"><a class="nav-link" href="/smartgym/pages/contact.php">Contact</a></li>
       </ul>
       <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/smartgym/pages/cart.php"><i class="fas fa-shopping-cart"></i> Cart (<?php echo $cartCount; ?>)</a></li>
         <?php if ($loggedIn): ?>
             <li class="nav-item"><span class="navbar-text me-2">Hello, <?php echo htmlspecialchars($currentUser); ?></span></li>
             <li class="nav-item"><a class="btn btn-danger" href="/smartgym/pages/logout.php">Logout</a></li>
