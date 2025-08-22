@@ -104,9 +104,12 @@ echo '<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bo
               </li>
             </ul>
             <div class="ratio ratio-16x9 rounded overflow-hidden border">
-              <iframe
-                src="https://www.youtube.com/embed/wnHW6o8WMas"
-                title="SmartGym Intro" allowfullscreen></iframe>
+              <video id="fitnessVideo" class="w-100"
+                    src="/smartgym/media/istockphoto-2175992938-640_adpp_is.mp4"
+                    autoplay loop muted playsinline controls preload="auto"
+                    poster="/smartgym/assets/fitness_bg.jpg">
+                    Tu navegador no soporta video.
+              </video>
             </div>
           </div>
         </div>

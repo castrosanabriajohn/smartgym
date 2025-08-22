@@ -152,7 +152,14 @@ require_once __DIR__ . '/../includes/header.php';
   <div class="mt-5">
     <h3 class="h5 mb-3">Featured Video</h3>
     <div class="ratio ratio-16x9">
-      <iframe src="https://www.youtube.com/embed/wnHW6o8WMas" title="Fitness Video" allowfullscreen></iframe>
+    <<div class="ratio ratio-16x9">
+      <video id="fitnessVideo" class="w-100"
+            src="/smartgym/media/istockphoto-2175992938-640_adpp_is.mp4"
+            autoplay loop muted playsinline controls preload="auto"
+            poster="/smartgym/assets/fitness_bg.jpg">
+        Tu navegador no soporta video.
+      </video>
+    </div>
     </div>
   </div>
 
